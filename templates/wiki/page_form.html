@@ -1,0 +1,39 @@
+{% extends 'wiki/base.html' %}
+{% block title %}{{ action }} сторінку{% endblock %}
+{% block content %}
+<div class="page-card">
+    <h3>{{ action }} сторінку</h3>
+    <form method="post">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label class="form-label">Заголовок</label>
+            {{ form.title }}
+        </div>
+        <div class="mb-3">
+            <label class="form-label">URL-назва (slug)</label>
+            {{ form.slug }}
+            <small class="text-muted">Тільки латинські літери, цифри та дефіс</small>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Розділ</label>
+            {{ form.section }}
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Зміст</label>
+            {{ form.content }}
+        </div>
+        {% if action == 'Редагувати' %}
+        <div class="mb-3">
+            <label class="form-label">Коментар до змін</label>
+            <input type="text" name="comment" class="form-control" placeholder="Що змінили?">
+        </div>
+        {% endif %}
+        <div class="mb-3 form-check">
+            {{ form.is_published }}
+            <label class="form-check-label">Опубліковано</label>
+        </div>
+        <button type="submit" class="btn btn-wiki">{{ action }}</button>
+        <a href="/" class="btn btn-outline-secondary">Скасувати</a>
+    </form>
+</div>
+{% endblock %}

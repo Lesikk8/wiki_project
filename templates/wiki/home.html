@@ -1,0 +1,38 @@
+{% extends 'wiki/base.html' %}
+{% block title %}Головна — Вікі{% endblock %}
+{% block content %}
+<div class="row">
+    <div class="col-md-3">
+        <div class="sidebar">
+            <h6>📂 Розділи</h6>
+            {% for section in sections %}
+            <a href="/sections/{{ section.slug }}/">{{ section.name }}</a>
+            {% empty %}
+            <p class="text-muted small">Розділів ще немає</p>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="col-md-9">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h4>📄 Останні сторінки</h4>
+            {% if user.is_authenticated %}
+            <a href="/pages/create/" class="btn btn-wiki">+ Нова сторінка</a>
+            {% endif %}
+        </div>
+        {% for page in pages %}
+        <div class="page-card">
+            <h5><a href="/pages/{{ page.slug }}/">{{ page.title }}</a></h5>
+            <p class="text-muted small">
+                {% if page.section %}<span class="badge-section">{{ page.section.name }}</span>{% endif %}
+                Автор: {{ page.author.username }} · {{ page.updated_at|date:"d.m.Y H:i" }}
+            </p>
+            <p>{{ page.content|truncatewords:30 }}</p>
+        </div>
+        {% empty %}
+        <div class="page-card text-center text-muted">
+            <p>Сторінок ще немає. Створіть першу!</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

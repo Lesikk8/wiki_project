@@ -1,0 +1,43 @@
+{% extends 'wiki/base.html' %}
+{% block title %}{{ page.title }}{% endblock %}
+{% block content %}
+<div class="row">
+    <div class="col-md-9">
+        <div class="page-card">
+            <div class="d-flex justify-content-between align-items-start mb-3">
+                <h2>{{ page.title }}</h2>
+                {% if user.is_authenticated %}
+                <div>
+                    <a href="/pages/{{ page.slug }}/edit/" class="btn btn-wiki btn-sm">✏️ Редагувати</a>
+                    <a href="/pages/{{ page.slug }}/history/" class="btn btn-outline-secondary btn-sm">🕐 Історія</a>
+                    <a href="/pages/{{ page.slug }}/delete/" class="btn btn-outline-danger btn-sm">🗑 Видалити</a>
+                </div>
+                {% endif %}
+            </div>
+            <p class="text-muted small">
+                {% if page.section %}<span class="badge-section">{{ page.section.name }}</span>{% endif %}
+                Автор: {{ page.author.username }} ·
+                Створено: {{ page.created_at|date:"d.m.Y" }} ·
+                Оновлено: {{ page.updated_at|date:"d.m.Y H:i" }}
+            </p>
+            <hr>
+            <div style="white-space: pre-wrap; line-height: 1.8;">{{ page.content }}</div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="sidebar">
+            <h6>🕐 Останні зміни</h6>
+            {% for version in versions %}
+            <div class="mb-2">
+                <small class="text-muted">{{ version.edited_at|date:"d.m.Y H:i" }}</small><br>
+                <small>{{ version.edited_by.username }}</small>
+                {% if version.comment %}<br><small class="text-muted">{{ version.comment }}</small>{% endif %}
+            </div>
+            {% empty %}
+            <p class="text-muted small">Змін ще немає</p>
+            {% endfor %}
+            <a href="/pages/{{ page.slug }}/history/" class="btn btn-outline-secondary btn-sm w-100 mt-2">Вся історія</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

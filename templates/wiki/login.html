@@ -1,0 +1,30 @@
+{% extends 'wiki/base.html' %}
+{% block title %}Вхід{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-5">
+        <div class="page-card">
+            <h4 class="text-center mb-4">🔐 Вхід до системи</h4>
+            <form method="post">
+                {% csrf_token %}
+                {% for field in form %}
+                <div class="mb-3">
+                    <label class="form-label">{{ field.label }}</label>
+                    <input type="{{ field.field.widget.input_type }}"
+                           name="{{ field.html_name }}"
+                           class="form-control"
+                           {% if field.value %}value="{{ field.value }}"{% endif %}>
+                    {% if field.errors %}
+                    <div class="text-danger small">{{ field.errors }}</div>
+                    {% endif %}
+                </div>
+                {% endfor %}
+                <button type="submit" class="btn btn-wiki w-100">Увійти</button>
+            </form>
+            <p class="text-center mt-3 text-muted">
+                Немає акаунту? <a href="/register/">Зареєструватись</a>
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock %}

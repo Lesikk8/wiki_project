@@ -1,0 +1,13 @@
+{% extends 'wiki/base.html' %}
+{% block title %}Видалити сторінку{% endblock %}
+{% block content %}
+<div class="page-card text-center">
+    <h4>🗑 Видалити сторінку?</h4>
+    <p>Ви впевнені що хочете видалити <strong>{{ page.title }}</strong>?</p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Так, видалити</button>
+        <a href="/pages/{{ page.slug }}/" class="btn btn-outline-secondary">Скасувати</a>
+    </form>
+</div>
+{% endblock %}

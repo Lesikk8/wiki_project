@@ -1,0 +1,28 @@
+{% extends 'wiki/base.html' %}
+{% block title %}Новий розділ{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="page-card">
+            <h4>📂 Створити розділ</h4>
+            <form method="post">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label class="form-label">Назва розділу</label>
+                    {{ form.name }}
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">URL-назва (slug)</label>
+                    {{ form.slug }}
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Батьківський розділ</label>
+                    {{ form.parent }}
+                </div>
+                <button type="submit" class="btn btn-wiki">Створити</button>
+                <a href="/" class="btn btn-outline-secondary">Скасувати</a>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

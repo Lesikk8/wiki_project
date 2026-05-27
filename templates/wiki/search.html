@@ -1,0 +1,28 @@
+{% extends 'wiki/base.html' %}
+{% block title %}Пошук{% endblock %}
+{% block content %}
+<div class="page-card">
+    <h4>🔍 Пошук по вікі</h4>
+    <form method="get" action="/search/">
+        <div class="input-group mb-4">
+            {{ form.query }}
+            <button class="btn btn-wiki" type="submit">Знайти</button>
+        </div>
+    </form>
+    {% if query %}
+        <p class="text-muted">Результати для: <strong>{{ query }}</strong> — знайдено {{ results|length }}</p>
+        {% for page in results %}
+        <div class="page-card">
+            <h5><a href="/pages/{{ page.slug }}/">{{ page.title }}</a></h5>
+            <p class="text-muted small">
+                {% if page.section %}<span class="badge-section">{{ page.section.name }}</span>{% endif %}
+                {{ page.updated_at|date:"d.m.Y" }}
+            </p>
+            <p>{{ page.content|truncatewords:25 }}</p>
+        </div>
+        {% empty %}
+        <p class="text-muted">Нічого не знайдено</p>
+        {% endfor %}
+    {% endif %}
+</div>
+{% endblock %}
